@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking assistant</title>
+</head>
+<style>
+table, th, td {
+  border: 5px solid red;
+}
+.tablecontent{
+  font-family: "Times New Roman", Times, serif;
+  font-size: 40px;
+}
+
+</style>
+<header>
+    <center>
+        <div id="Parking">
+            <h1 style="color:Navy;">Self powered Smart Parking zone</h1>
+        </div>
+    </center>
+</header>
+<body>
+  <center>
+      <div id="Parking">
+          <img class="img1" src="C:\Pavika\Project,  Technichal Paper competition data\Smart parking system\Pictures and GIF\Parking .gif" alt="e_yantra_logo" width="300" height="200"><br>
+      </div>
+  </center>
+    <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+    <center><h2>Team no. 16</h2></center>
+        <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+        <center><h2>Hello user!! This parking zone has 3 slots</h2></center>
+      <center><h3>You can check the availability of the parking slots from here !!!</h3></center>
+
+
+   		<center><table id="table1">
+            <tr>
+                <th><h2>Slot 1</h2</th>
+                <th><h2>Slot 2</h2></th>
+                <th><h2>Slot 3</h2></th>
+            </tr>
+            <tbody id="tableContent">
+            </tbody>
+        </table></center>
+
+        <hr style="height:4px;border-width:0;color:gray;background-color:gray">
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    /////////////Ajax Requests////////////
+    $(document).ready(function() {
+        // Fetch the initial table
+        refreshTable();
+
+        // Fetch every 1 second
+        setInterval(refreshTable, 1000);
+
+    });
+
+    function refreshTable(){
+
+        // var trHTML = ''; https://spreadsheets.google.com/feeds/list/1bUDHRDEXCesNhG7dbwCAk2clddRT5pIwZBk2zna87IE/1/public/full?alt=json
+
+        $.getJSON('https://spreadsheets.google.com/feeds/list/1h9LauXKt3jQ8r1SGIyBlQXgAgM6qQlw_1lN5nSMcIhk/1/public/full?alt=json', function(data) {
+
+            	var trHTML = '';
+
+            	for (var i = 0; i < data.feed.entry.length; ++i) {
+                	var myData_map, myData_order;
+                  if(i == data.feed.entry.length-1){
+                    trHTML += '<tr><td><h3>' + data.feed.entry[i].gsx$slot1.$t +
+                        	  '</h3></td><td><h3>' + data.feed.entry[i].gsx$slot2.$t +
+                        	  '</h3></td><td><h3>' + data.feed.entry[i].gsx$slot3.$t +
+                        	  //'</td><td>' + data.feed.entry[i].gsx$time.$t +
+                        	  //'</td><td>'  + data.feed.entry[i].gsx$city.$t +
+                        	  '</h3></td></tr>';
+
+                }
+              }
+
+                console.log(trHTML);
+        		$('#tableContent').html(trHTML);
+        		var trHTML = '';
+
+        	});
+    }
+
+</script>
+</html>
